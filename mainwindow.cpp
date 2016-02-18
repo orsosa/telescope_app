@@ -6,63 +6,85 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->gFreqTime->addGraph();
+    ui->gFreqTime->xAxis->setTickLabelType(QCPAxis::ltDateTime);
+    ui->gFreqTime->xAxis->setDateTimeFormat("mm-ss");
+
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("127.0.0.1");
     db.setDatabaseName("telescopes");
     db.setUserName("diego");
-    db.setPort(9999);
+    //db.setPort(9999);
     //db.setPassword("");
     if (!db.open()) qDebug()<<db.lastError();
-    TQtWidget *rw = ui->root_widget;
-    rw->GetCanvas()->cd();
-    rw->GetCanvas()->SetFillColorAlpha(kWhite,0);
-    rw->GetCanvas()->SetGrid();
+
     npoints=10;
+    x_data = new QVector<double>(npoints);
+    y_data = new QVector<double>(npoints);
     /////// getting histogram limits
     getLimits();
+    ui->gFreqTime->xAxis->setRange(t_min,t_max);
+    ui->gFreqTime->yAxis->setRange(f_min,f_max);
+    ui->gFreqTime->graph()->setLineStyle(QCPGraph::lsNone);
+    ui->gFreqTime->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
     //////
 
-    ft = new TH1F("ft","Frequency vs time",1e5,ft_min,ft_max);
-    setHistStyle(ft);
     QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(reDrawHist()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(reDrawFreq()));
     timer->start(1000);
 }
 
 void MainWindow::getLimits()
 {
     QSqlQuery query;
-    query.exec(Form("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ORDER BY reg_date DESC LIMIT %d",npoints));
+    query.exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
     query.next();
-    ft_max = query.value(1).toDateTime().toTime_t();
+    t_max = query.value(1).toDateTime().toTime_t();
+    f_max = -1e6;
+    f_min = 1e6;
 
-    while (query.next()) {
-            ft_min = query.value(1).toDateTime().toTime_t();
+    while (query.next())
+    {
+        t_min = query.value(1).toDateTime().toTime_t();
+         if (query.value(0).toDouble()>f_max)
+             f_max=query.value(0).toDouble();
+         if (query.value(0).toDouble()<f_min)
+             f_min=query.value(0).toDouble();
     }
+    t_min = t_min-0.1*(t_max-t_min);
+    t_max = t_max+0.1*(t_max-t_min);
+    f_min = f_min-0.1*(f_max-f_min);
+    f_max = f_max+0.1*(f_max-f_min);
 
 }
-void MainWindow::setHistStyle(TH1F *ft)
+
+void MainWindow::setLimits()
 {
-    ft->SetStats(0);
-    ft->SetMarkerStyle(kFullDotLarge);
-    ft->GetXaxis()->SetTimeDisplay(1);
-    ft->GetXaxis()->SetTimeFormat("%H-%M-%S");
+    getLimits();
+    ui->gFreqTime->xAxis->setRange(t_min,t_max);
+    ui->gFreqTime->yAxis->setRange(f_min,f_max);
+
 }
-void MainWindow::reDrawHist()
+
+void MainWindow::reDrawFreq()
 {
-    ui->root_widget->GetCanvas()->cd();
     //ui->root_widget->GetCanvas()->SetFillColor(k);
     QSqlQuery query;
-    query.exec(Form("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ORDER BY reg_date DESC LIMIT %d",npoints));
+    query.exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
+    int i=0;
     while (query.next()) {
-            float freq = query.value(0).toFloat();
+            double freq = query.value(0).toDouble();
             uint date = query.value(1).toDateTime().toTime_t();
             //qDebug() << freq<< date<<QDateTime::currentDateTime().toTime_t();
-            ft->SetBinContent(ft->FindBin(date),freq);
+            (*x_data)[i] = date;
+            (*y_data)[i++] =freq;
     }
+    setLimits();
+    ui->gFreqTime->graph(0)->setData((*x_data),(*y_data));
     //fh->FillRandom("gaus");
-    ft->Draw("p");
-    ui->root_widget->GetCanvas()->Update();
+    ui->gFreqTime->replot();
+
 
 }
 
@@ -74,10 +96,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_samplesIn_valueChanged(int arg1)
 {
-    delete ft;
     npoints=arg1;
+    delete x_data;
+    delete y_data;
+    x_data = new QVector<double>(npoints);
+    y_data = new QVector<double>(npoints);
+
     getLimits();
-    ui->root_widget->GetCanvas()->cd();
-    ft = new TH1F("ft","Frequency vs time",1e5,ft_min,ft_max);
-    setHistStyle(ft);
+    ui->gFreqTime->xAxis->setRange(t_min,t_max);
+    ui->gFreqTime->yAxis->setRange(f_min,f_max);
+}
+
+void MainWindow::on_gateIn_valueChanged(double arg1)
+{
+    QSqlQuery query;
+    query.exec(QString("INSERT  INTO usm_telescope_parameters (gate)  VALUES (%1)").arg(arg1));
+    qDebug()<<db.lastError();
 }

@@ -8,8 +8,7 @@
 #include <QSqlError>
 #include <QDateTime>
 #include <QDebug>
-#include "TCanvas.h"
-#include "TH1F.h"
+
 
 
 namespace Ui {
@@ -25,19 +24,22 @@ public:
     ~MainWindow();
 
 public slots:
-     void reDrawHist();
+     void reDrawFreq();
 
 private slots:
      void on_samplesIn_valueChanged(int arg1);
 
+     void on_gateIn_valueChanged(double arg1);
+
 private:
     Ui::MainWindow *ui;
-    TH1F *ft;
     QSqlDatabase db;
-    uint ft_min,ft_max;
+    uint t_min,t_max;
+    double f_min,f_max;
     int npoints;
     void getLimits();
-    void setHistStyle(TH1F *ft);
+    void setLimits();
+    QVector<double> *x_data,*y_data;
 };
 
 #endif // MAINWINDOW_H

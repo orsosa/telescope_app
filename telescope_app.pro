@@ -6,18 +6,22 @@
 
 QT       += core gui sql
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = telescope_app
-TEMPLATE = app
+TEMPLATE = app thread
 
-include("$$system(root-config --incdir)/rootcint.pri")
+#include("$$system(root-config --incdir)/rootcint.pri")
 
-INCLUDEPATH +=$$system(root-config --incdir)
+#INCLUDEPATH +=$$system(root-config --incdir)
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    ../../qcustomplot/qcustomplot.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    ../../qcustomplot/qcustomplot.h
+
+INCLUDEPATH += /home/orsosa/qcustomplot
 
 FORMS    += mainwindow.ui
