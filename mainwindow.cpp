@@ -6,11 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    ui->gFreqTime->addGraph();
-    ui->gFreqTime->xAxis->setTickLabelType(QCPAxis::ltDateTime);
-    ui->gFreqTime->xAxis->setDateTimeFormat("mm-ss");
-
+    setPlotStyle();
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("127.0.0.1");
     db.setDatabaseName("telescopes");
@@ -67,10 +63,19 @@ void MainWindow::setLimits()
 
 }
 
+void MainWindow::setPlotStyle()
+{
+    ui->gFreqTime->addGraph();
+    ui->gFreqTime->xAxis->setTickLabelType(QCPAxis::ltDateTime);
+    ui->gFreqTime->xAxis->setDateTimeFormat("mm-ss");
+    ui->gFreqTime->xAxis->setLabel("Time (mm-ss)");
+    ui->gFreqTime->yAxis->setLabel("Frequency (Hz)");
+}
 void MainWindow::reDrawFreq()
 {
     //ui->root_widget->GetCanvas()->SetFillColor(k);
     QSqlQuery query;
+    setLimits();
     query.exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
     int i=0;
     while (query.next()) {
@@ -80,7 +85,6 @@ void MainWindow::reDrawFreq()
             (*x_data)[i] = date;
             (*y_data)[i++] =freq;
     }
-    setLimits();
     ui->gFreqTime->graph(0)->setData((*x_data),(*y_data));
     //fh->FillRandom("gaus");
     ui->gFreqTime->replot();

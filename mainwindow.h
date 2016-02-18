@@ -39,6 +39,7 @@ private:
     int npoints;
     void getLimits();
     void setLimits();
+    void setPlotStyle();
     QVector<double> *x_data,*y_data;
 };
 

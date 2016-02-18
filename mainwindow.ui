@@ -13,15 +13,22 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(117, 224, 211);</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QSpinBox" name="samplesIn">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>50</x>
       <y>100</y>
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;Sans&quot;;
+background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="minimum">
      <number>3</number>
@@ -91,10 +98,13 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>30</y>
+      <y>70</y>
       <width>800</width>
       <height>600</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 14pt &quot;Sans&quot;;</string>
     </property>
    </widget>
    <widget class="Line" name="line_3">
@@ -157,6 +167,10 @@
       <height>27</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;Sans&quot;;
+background-color: rgb(255, 255, 255);</string>
+    </property>
     <property name="minimum">
      <double>3.000000000000000</double>
     </property>
@@ -165,6 +179,35 @@
     </property>
     <property name="value">
      <double>5.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>10</y>
+      <width>571</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: italic 32pt &quot;Sans&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Muon Telescope Moitor</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_5">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>50</y>
+      <width>511</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>
