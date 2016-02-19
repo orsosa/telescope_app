@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     db.setHostName("127.0.0.1");
     db.setDatabaseName("telescopes");
     db.setUserName("diego");
-    //db.setPort(9999);
+    db.setPort(9999);
     //db.setPassword("");
     if (!db.open()) qDebug()<<db.lastError();
 
@@ -23,8 +23,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->gFreqTime->xAxis->setRange(t_min,t_max);
     ui->gFreqTime->yAxis->setRange(f_min,f_max);
     ui->gFreqTime->graph()->setLineStyle(QCPGraph::lsNone);
-    ui->gFreqTime->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
+    ui->gFreqTime->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 6));
     //////
+    connect(ui->gFreqTime->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->gFreqTime->xAxis2, SLOT(setRange(QCPRange)));
+    connect(ui->gFreqTime->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->gFreqTime->yAxis2, SLOT(setRange(QCPRange)));
+    ui->gFreqTime->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    ///////
+    //ui->myButton->setStyleSheet("border-image:url(default_button.png);");
+    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
+    effect->setBlurRadius(5);
+    ui->gFreqTime->setGraphicsEffect(effect);
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(reDrawFreq()));
@@ -116,4 +124,18 @@ void MainWindow::on_gateIn_valueChanged(double arg1)
     QSqlQuery query;
     query.exec(QString("INSERT  INTO usm_telescope_parameters (gate)  VALUES (%1)").arg(arg1));
     qDebug()<<db.lastError();
+}
+
+void MainWindow::on_gateButton_released()
+{
+    DefaultDialog *diag = new DefaultDialog(this);
+    connect(diag,SIGNAL(gate_changed(double)),this,SLOT(on_gateIn_valueChanged(double)));
+    diag->show();
+}
+
+void MainWindow::on_pushButton_2_released()
+{
+    NpointsDiag *diag = new NpointsDiag(this);
+    connect(diag,SIGNAL(npoints_changed(int)),this,SLOT(on_samplesIn_valueChanged(int)));
+    diag->show();
 }
