@@ -9,8 +9,9 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QGraphicsDropShadowEffect>
-#include "defaultdialog.h"
-#include "npointsdiag.h"
+#include <QPen>
+#include "gatedialog.h"
+#include "npointsdialog.h"
 
 
 
@@ -30,20 +31,21 @@ public slots:
      void reDrawFreq();
 
 private slots:
-     void on_samplesIn_valueChanged(int arg1);
+     void npoints_valueChanged(int arg1);
 
-     void on_gateIn_valueChanged(double arg1);
+     void gate_valueChanged(double arg1);
 
      void on_gateButton_released();
 
-     void on_pushButton_2_released();
+     void on_npointsButton_released();
 
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
-    uint t_min,t_max;
-    double f_min,f_max;
+    uint t_min,t_max,t_min_r,t_max_r;
+    double f_min,f_max,f_min_r,f_max_r;
     int npoints;
+    void initLimits();
     void getLimits();
     void setLimits();
     void setPlotStyle();

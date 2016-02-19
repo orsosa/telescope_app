@@ -18,16 +18,16 @@ TEMPLATE = app thread
 SOURCES += main.cpp\
         mainwindow.cpp \
     ../../qcustomplot/qcustomplot.cpp \
-    defaultdialog.cpp \
-    npointsdiag.cpp
+    gatedialog.cpp \
+    npointsdialog.cpp
 
 HEADERS  += mainwindow.h \
     ../../qcustomplot/qcustomplot.h \
-    defaultdialog.h \
-    npointsdiag.h
+    gatedialog.h \
+    npointsdialog.h
 
 INCLUDEPATH += /home/orsosa/qcustomplot
 
 FORMS    += mainwindow.ui \
-    defaultdialog.ui \
-    npointsdiag.ui
+    gatedialog.ui \
+    npointsdialog.ui

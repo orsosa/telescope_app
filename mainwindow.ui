@@ -107,6 +107,9 @@ color: rgba(255, 255, 255, 0);</string>
       <height>127</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QPushButton
 {
@@ -123,14 +126,15 @@ QPushButton:hover
 QPushButton:pressed
 {
    background-image: url(&quot;press_button.png&quot;);
-}</string>
+}
+	border-color: rgba(255, 255, 255, 0);</string>
     </property>
     <property name="text">
      <string>Set
 Gate</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="npointsButton">
     <property name="geometry">
      <rect>
       <x>141</x>
@@ -138,6 +142,9 @@ Gate</string>
       <width>127</width>
       <height>127</height>
      </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton
@@ -162,20 +169,20 @@ QPushButton:pressed
 Points</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>921</x>
-      <y>84</y>
-      <width>319</width>
-      <height>364</height>
+      <x>918</x>
+      <y>3</y>
+      <width>94</width>
+      <height>84</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame
 {
     background-color: transparent;
-    background-image: url(&quot;AirShower.png&quot;);
+    background-image: url(&quot;utfsm_silab.png&quot;);
     background-repeat: none;    
     border: none;
 }</string>
@@ -194,7 +201,7 @@ Points</string>
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
