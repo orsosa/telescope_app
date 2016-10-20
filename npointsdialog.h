@@ -12,7 +12,7 @@ class NpointsDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit NpointsDialog(QWidget *parent = 0);
+    explicit NpointsDialog(QWidget *parent = 0,double npoints=10);
     ~NpointsDialog();
 
 signals:

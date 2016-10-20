@@ -42,14 +42,20 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
+    QSqlQuery *query;
     uint t_min,t_max,t_min_r,t_max_r;
     double f_min,f_max,f_min_r,f_max_r;
-    int npoints;
+    double stored_gate;
+    bool onlineFlag;
+    uint offlineTimeout;
+    int npoints,avg_w;
     void initLimits();
     void getLimits();
     void setLimits();
     void setPlotStyle();
+    void getTelescopeData();
     QVector<double> *x_data,*y_data;
+    QVector<double> *x_data_m,*y_data_m;
 };
 
 #endif // MAINWINDOW_H

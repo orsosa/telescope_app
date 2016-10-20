@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>SAMAHO</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(206, 227, 246);
@@ -194,6 +194,22 @@ Points</string>
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
+   <widget class="QFrame" name="wifi_frame">
+    <property name="geometry">
+     <rect>
+      <x>177</x>
+      <y>3</y>
+      <width>51</width>
+      <height>45</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -201,7 +217,7 @@ Points</string>
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
