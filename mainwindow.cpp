@@ -8,9 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setPlotStyle();
     db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("127.0.0.1");
+    db.setHostName("200.1.16.248");
     db.setDatabaseName("telescopes");
-    db.setUserName("diego");
+    db.setUserName("orsosa");
     //db.setPort(9999);
     //db.setPassword("");
     if (!db.open()) qDebug()<<db.lastError();
@@ -47,7 +47,7 @@ void MainWindow::initLimits()
 void MainWindow::getLimits()
 {
     QSqlQuery query;
-    query.exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
+    query.exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
     query.next();
     if (t_max < query.value(1).toDateTime().toTime_t()) t_max =query.value(1).toDateTime().toTime_t();
     uint t_min_a;
@@ -97,7 +97,7 @@ void MainWindow::reDrawFreq()
     //ui->root_widget->GetCanvas()->SetFillColor(k);
     QSqlQuery query;
     setLimits();
-    query.exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
+    query.exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
     int i=0;
     while (query.next()) {
             double freq = query.value(0).toDouble();
