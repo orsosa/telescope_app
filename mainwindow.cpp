@@ -52,15 +52,15 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::initLimits()
 {
     f_max = -1e6;
-    f_min = -1e6;
+    f_min = 1e6;
     t_max = -UINT_MAX;
-    t_min = -UINT_MAX;
+    t_min = UINT_MAX;
 }
 
 void MainWindow::getTelescopeData()
 {
   //    QSqlQuery query;
-    query->exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
+    query->exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH) and freq < 100 ORDER BY reg_date DESC LIMIT %1").arg(npoints));
     query->next();
     /*    if (t_max < query->value(1).toDateTime().toTime_t()) t_max =query->value(1).toDateTime().toTime_t();
     uint t_min_a;
@@ -82,11 +82,17 @@ void MainWindow::getTelescopeData()
         ui->wifi_frame->setStyleSheet("background-image: url(\"wifi_on.png\");");
      else
         ui->wifi_frame->setStyleSheet("background-image: url(\"wifi_off.png\");");
+
+     double f_avg=freq;
+     double f_sd=freq*freq;
+     double f_min_a=1e6;
+
      (*x_data)[i] = date;
      (*y_data)[i++] =freq;
-     double f_min_a=1e6;
-     double f_avg=0;
-     uint t_avg=0;
+     if (freq>f_max)
+     f_max=freq;
+
+     //uint t_avg=0;
      while (query->next()) {
         freq = query->value(0).toDouble();
         date = query->value(1).toDateTime().toTime_t();
@@ -104,7 +110,16 @@ void MainWindow::getTelescopeData()
         f_max=freq;
         if (freq<f_min_a)
         f_min_a=freq;
+
+        f_avg+=freq;
+        f_sd +=freq*freq;
      }
+
+     f_avg=f_avg/i;
+     f_sd=( f_sd/(i-1) > i/(i-1)*pow(f_avg,2) )?( sqrt(f_sd/(i-1) - i/(i-1)*pow(f_avg,2)) ):-1.0;
+     ui->label_avg->setNum(f_avg);
+     ui->label_sd->setNum(f_sd);
+
      if (date>t_min || date<t_min_r) t_min=date;
      if (f_min_a>f_min || f_min_a<f_min_r) f_min=f_min_a;
      t_min_r = t_min-0.1*(t_max-t_min);
@@ -155,7 +170,7 @@ void MainWindow::reDrawFreq()
 {
     getTelescopeData();
     setLimits();
-    query->exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
+/*    query->exec(QString("SELECT freq, reg_date FROM usm_telescope_data WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH) ORDER BY reg_date DESC LIMIT %1").arg(npoints));
     int i=0;
     while (query->next()) {
             double freq = query->value(0).toDouble();
@@ -164,6 +179,7 @@ void MainWindow::reDrawFreq()
             (*x_data)[i] = date;
             (*y_data)[i++] =freq;
     }
+    */
     ui->gFreqTime->graph(0)->setData((*x_data),(*y_data));
     ui->gFreqTime->replot();
 }
