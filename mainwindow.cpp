@@ -90,7 +90,9 @@ void MainWindow::getTelescopeData()
      (*x_data)[i] = date;
      (*y_data)[i++] =freq;
      if (freq>f_max)
-     f_max=freq;
+       f_max=freq;
+     if (freq<f_min_a)
+       f_min_a=freq;
 
      //uint t_avg=0;
      while (query->next()) {
