@@ -11,11 +11,12 @@ MainWindow::MainWindow(QWidget *parent) :
     offlineTimeout = 70;
     setPlotStyle();
     db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("200.1.16.248");
+    //db.setHostName("200.1.16.248");
+    db.setHostName("127.0.0.1");
     db.setDatabaseName("telescopes");
     db.setUserName("orsosa");
-    //db.setPort(9999);
-    //db.setPassword("");
+    db.setPort(10000);
+    db.setPassword("");
     if (!db.open()) qDebug()<<db.lastError();
     query = new  QSqlQuery();
     ui->wifi_frame->setStyleSheet(\
