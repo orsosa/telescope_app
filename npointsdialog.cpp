@@ -9,7 +9,6 @@ NpointsDialog::NpointsDialog(QWidget *parent,double npoints) :
     this->setWindowTitle("Plot points");
     ui->lineEdit->setText(QString("%1").arg(npoints));
     ui->lineEdit->setFocus();
-
 }
 
 NpointsDialog::~NpointsDialog()

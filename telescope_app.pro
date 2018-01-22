@@ -17,17 +17,26 @@ TEMPLATE = app thread
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    ../../qcustomplot/qcustomplot.cpp \
+    /home/hodoscopio/qcustomplot/qcustomplot.cpp \
     gatedialog.cpp \
-    npointsdialog.cpp
+    npointsdialog.cpp \
+    azimuthdialog.cpp \
+    distancedialog.cpp \
+    polardialog.cpp
 
 HEADERS  += mainwindow.h \
-    ../../qcustomplot/qcustomplot.h \
+    /home/hodoscopio/qcustomplot/qcustomplot.h \
     gatedialog.h \
-    npointsdialog.h
+    npointsdialog.h \
+    azimuthdialog.h \
+    distancedialog.h \
+    polardialog.h
 
-INCLUDEPATH += /home/orsosa/qcustomplot
+INCLUDEPATH += /home/hodoscopio/qcustomplot
 
 FORMS    += mainwindow.ui \
     gatedialog.ui \
-    npointsdialog.ui
+    npointsdialog.ui \
+    azimuthdialog.ui \
+    distancedialog.ui \
+    polardialog.ui

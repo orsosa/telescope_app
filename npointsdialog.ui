@@ -18,8 +18,8 @@
     <rect>
      <x>10</x>
      <y>80</y>
-     <width>221</width>
-     <height>41</height>
+     <width>220</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="orientation">
@@ -32,23 +32,23 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>12</x>
+     <x>40</x>
      <y>36</y>
-     <width>131</width>
+     <width>91</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
-    <string>Setting plot points...</string>
+    <string>Plot points</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>147</x>
-     <y>27</y>
-     <width>61</width>
-     <height>27</height>
+     <x>130</x>
+     <y>30</y>
+     <width>60</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -11,6 +11,9 @@
 #include <QGraphicsDropShadowEffect>
 #include <QPen>
 #include "gatedialog.h"
+#include "polardialog.h"
+#include "azimuthdialog.h"
+#include "distancedialog.h"
 #include "npointsdialog.h"
 
 
@@ -35,7 +38,19 @@ private slots:
 
      void gate_valueChanged(double arg1);
 
+     void azimuth_valueChanged(double arg1);
+
+     void distance_valueChanged(double arg1);
+
+     void polar_valueChanged(double arg1);
+
      void on_gateButton_released();
+
+     void on_azimuthButton_released();
+
+     void on_polarButton_released();
+
+     void on_distanceButton_released();
 
      void on_npointsButton_released();
 
@@ -45,7 +60,7 @@ private:
     QSqlQuery *query;
     uint t_min,t_max,t_min_r,t_max_r;
     double f_min,f_max,f_min_r,f_max_r;
-    double stored_gate;
+    double stored_gate,stored_azimuth,stored_polar,stored_distance;
     bool onlineFlag;
     uint offlineTimeout;
     int npoints,avg_w;

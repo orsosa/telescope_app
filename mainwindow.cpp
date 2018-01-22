@@ -11,10 +11,11 @@ MainWindow::MainWindow(QWidget *parent) :
     offlineTimeout = 70;
     setPlotStyle();
     db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("200.1.16.248");
+    //db.setHostName("200.1.16.248");
+    db.setHostName("127.0.0.1");
     db.setDatabaseName("telescopes");
     db.setUserName("orsosa");
-    //db.setPort(9999);
+    db.setPort(10000);
     //db.setPassword("");
     if (!db.open()) qDebug()<<db.lastError();
     query = new  QSqlQuery();
@@ -208,11 +209,131 @@ void MainWindow::npoints_valueChanged(int arg1)
 
 void MainWindow::gate_valueChanged(double arg1)
 {
-    QSqlQuery query;
-    if(!query.exec(QString("INSERT  INTO usm_telescope_parameters (gate)  VALUES (%1)").arg(arg1)))
+    if (!query->exec(QString(\
+    "SELECT azimuth_angle,distance,polar_angle FROM usm_telescope_parameters\
+    WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH)\
+    ORDER BY reg_date DESC LIMIT 1")))
+    {
+    //warning
+    qDebug()<<db.lastError();
+    }
+    /*
+    query->next();
+    double azimuth=query->value(0).toDouble();
+    query->next();
+    double distance = query->value(1).toDouble();
+    query->next();
+    double polar = query->value(2).toDouble();
+
+    query.prepare("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)" "VALUES(:gate,:azimuth_angle,:polar_angle,:distance)");
+    query.bindValue(":gate",arg1);
+    query.bindValue(":azimuth_angle",azimuth);
+    query.bindValue(":distance",distance);
+    query.bindValue(":polar_angle",polar);
+    if(!query.exec()) qDebug()<<db.lastError();
+    */
+    //QSqlQuery query_send;
+    query->first();
+    if(!query->exec(QString("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)  VALUES (%1,%2,%3,%4)").arg(arg1).arg(query->value(0).toDouble()).arg(query->value(2).toDouble()).arg(query->value(1).toDouble())))
         qDebug()<<db.lastError();
 }
 
+void MainWindow::azimuth_valueChanged(double arg1)
+{
+    if (!query->exec(QString(\
+        "SELECT gate,distance,polar_angle FROM usm_telescope_parameters\
+        WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH)\
+        ORDER BY reg_date DESC LIMIT 1")))
+    {
+        //warning
+        qDebug()<<db.lastError();
+    }
+/*
+    query->next();
+    double gate=query->value(0).toDouble();
+    query->next();
+    double distance = query->value(1).toDouble();
+    query->next();
+    double polar = query->value(2).toDouble();
+
+    query.prepare("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)" "VALUES(:gate,:azimuth_angle,:polar_angle,:distance)");
+    query.bindValue("gate",gate);
+    query.bindValue(":azimuth_angle",arg1);
+    query.bindValue(":polar_angle",polar);
+    query.bindValue(":distance",distance);
+    if(!query.exec()) qDebug()<<db.lastError();
+    */
+    query->first();
+    //QSqlQuery query_send;
+    if(!query->exec(QString("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)  VALUES (%1,%2,%3,%4)").arg(query->value(0).toDouble()).arg(arg1).arg(query->value(2).toDouble()).arg(query->value(1).toDouble())))
+    qDebug()<<db.lastError();
+
+}
+
+void MainWindow::distance_valueChanged(double arg1)
+{
+    if (!query->exec(QString(\
+          "SELECT gate,azimuth_angle,polar_angle FROM usm_telescope_parameters\
+           WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH)\
+           ORDER BY reg_date DESC LIMIT 1")))
+    {
+    //warning
+        qDebug()<<db.lastError();
+    }
+
+/*
+    query->next();
+    double gate=query->value(0).toDouble();
+    query->next();
+    double azimuth = query->value(1).toDouble();
+    query->next();
+    double polar = query->value(2).toDouble();
+
+    query.prepare("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)" "VALUES(:gate,:azimuth_angle,:polar_angle,:distance)");
+    query.bindValue(":gate",gate);
+    query.bindValue(":azimuth_angle",azimuth);
+    query.bindValue(":polar_angle",polar);
+    query.bindValue(":distance",arg1);
+    if(!query.exec()) qDebug()<<db.lastError();
+    */
+    query->first();
+    //QSqlQuery query_send;
+    if(!query->exec(QString("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)  VALUES (%1,%2,%3,%4)").arg(query->value(0).toDouble()).arg(query->value(1).toDouble()).arg(query->value(2).toDouble()).arg(arg1)))
+        qDebug()<<db.lastError();
+
+}
+void MainWindow::polar_valueChanged(double arg1)
+{
+    if (!query->exec(QString(\
+                    "SELECT gate,azimuth_angle,distance FROM usm_telescope_parameters\
+                     WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH)\
+                     ORDER BY reg_date DESC LIMIT 1")))
+    {
+        //warning
+        qDebug()<<db.lastError();
+    }
+
+/*
+    query->next();
+    double gate=query->value(0).toDouble();
+    query->next();
+    double azimuth = query->value(1).toDouble();
+    query->next();
+    double distance = query->value(2).toDouble();
+
+    query.prepare("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)" "VALUES(:gate,:azimuth_angle,:polar_angle,:distance)");
+    query.bindValue(":gate",gate);
+    query.bindValue(":azimuth_angle",azimuth);
+    query.bindValue(":polar_angle",arg1);
+    query.bindValue(":distance",distance);
+    if(!query.exec()) qDebug()<<db.lastError();
+    */
+    query->first();
+    //QSqlQuery query_send;
+    if(!query->exec(QString("INSERT  INTO usm_telescope_parameters (gate,azimuth_angle,polar_angle,distance)  VALUES (%1,%2,%3,%4)").arg(query->value(0).toDouble()).arg(query->value(1).toDouble()).arg(arg1).arg(query->value(2).toDouble())))
+        qDebug()<<db.lastError();
+
+}
 void MainWindow::on_gateButton_released()
 {
     if (!query->exec(QString(\
@@ -236,3 +357,55 @@ void MainWindow::on_npointsButton_released()
     connect(diag,SIGNAL(npoints_changed(int)),this,SLOT(npoints_valueChanged(int)));
     diag->show();
 }
+
+void MainWindow::on_azimuthButton_released()
+{
+    if (!query->exec(QString("SELECT azimuth_angle FROM usm_telescope_parameters\
+     WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH)\
+     ORDER BY reg_date DESC LIMIT 1")))
+    {
+    //warning
+    qDebug()<<db.lastError();
+    }
+    query->next();
+    stored_azimuth = query->value(0).toDouble();
+    AzimuthDialog *diag = new AzimuthDialog(this,stored_azimuth);
+    connect(diag,SIGNAL(azimuth_changed(double)),this,SLOT(azimuth_valueChanged(double)));
+    diag->show();
+}
+
+void MainWindow::on_distanceButton_released()
+{
+    if (!query->exec(QString("SELECT distance FROM usm_telescope_parameters\
+        WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH)\
+        ORDER BY reg_date DESC LIMIT 1")))
+    {
+    //warning
+     qDebug()<<db.lastError();
+    }
+    query->next();
+    stored_distance=query->value(0).toDouble();
+
+    DistanceDialog *diag = new DistanceDialog(this,stored_distance);
+    connect(diag,SIGNAL(distance_changed(double)),this,SLOT(distance_valueChanged(double)));
+    diag->show();
+}
+
+void MainWindow::on_polarButton_released()
+{
+    if (!query->exec(QString("SELECT polar_angle FROM usm_telescope_parameters\
+                              WHERE reg_date >= DATE_SUB(CURRENT_DATE, INTERVAL 2 MONTH)\
+                              ORDER BY reg_date DESC LIMIT 1")))
+    {
+        //warning
+        qDebug()<<db.lastError();
+    }
+    query->next();
+    stored_polar=query->value(0).toDouble();
+    PolarDialog *diag = new PolarDialog(this,stored_polar);
+    connect(diag,SIGNAL(polar_changed(double)),this,SLOT(polar_valueChanged(double)));
+    diag->show();
+}
+
+
+

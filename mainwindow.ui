@@ -22,10 +22,10 @@ color:rgb(26, 14, 165)</string>
    <widget class="QCustomPlot" name="gFreqTime" native="true">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>71</y>
-      <width>600</width>
-      <height>470</height>
+      <x>250</x>
+      <y>70</y>
+      <width>591</width>
+      <height>471</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -52,7 +52,6 @@ color:rgb(26, 14, 165)</string>
     <property name="inputMethodHints">
      <set>Qt::ImhNone</set>
     </property>
-    <zorder>verticalLayoutWidget</zorder>
    </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
@@ -78,7 +77,7 @@ color:rgb(26, 14, 165)</string>
      <rect>
       <x>180</x>
       <y>51</y>
-      <width>721</width>
+      <width>711</width>
       <height>20</height>
      </rect>
     </property>
@@ -102,8 +101,8 @@ color: rgba(255, 255, 255, 0);</string>
    <widget class="QPushButton" name="gateButton">
     <property name="geometry">
      <rect>
-      <x>141</x>
-      <y>162</y>
+      <x>70</x>
+      <y>160</y>
       <width>127</width>
       <height>127</height>
      </rect>
@@ -138,8 +137,8 @@ Gate</string>
    <widget class="QPushButton" name="npointsButton">
     <property name="geometry">
      <rect>
-      <x>141</x>
-      <y>303</y>
+      <x>70</x>
+      <y>300</y>
       <width>127</width>
       <height>127</height>
      </rect>
@@ -210,17 +209,11 @@ Points</string>
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
     </property>
-    <zorder>label_3</zorder>
-    <zorder>label_3</zorder>
-    <zorder>label_3</zorder>
-    <zorder>label_3</zorder>
-    <zorder>label_3</zorder>
-    <zorder>label_3</zorder>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>114</x>
+      <x>60</x>
       <y>447</y>
       <width>181</width>
       <height>80</height>
@@ -284,15 +277,123 @@ deviation</string>
      </item>
     </layout>
    </widget>
-   <zorder>gFreqTime</zorder>
-   <zorder>label_3</zorder>
-   <zorder>line_5</zorder>
-   <zorder>gateButton</zorder>
-   <zorder>npointsButton</zorder>
-   <zorder>frame_2</zorder>
-   <zorder>wifi_frame</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>label_avg</zorder>
+   <widget class="QPushButton" name="azimuthButton">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>170</y>
+      <width>127</width>
+      <height>127</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+    background-color: transparent;
+    background-image: url(&quot;default_button.png&quot;);
+    background-repeat: none;    
+    border: none;
+}
+QPushButton:hover
+{
+   background-image: url(&quot;hover_button.png&quot;);
+}
+
+QPushButton:pressed
+{
+   background-image: url(&quot;press_button.png&quot;);
+}
+	border-color: rgba(255, 255, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string>Set
+Azimuth angle</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="polarButton">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>310</y>
+      <width>127</width>
+      <height>127</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+    background-color: transparent;
+    background-image: url(&quot;default_button.png&quot;);
+    background-repeat: none;    
+    border: none;
+}
+QPushButton:hover
+{
+   background-image: url(&quot;hover_button.png&quot;);
+}
+
+QPushButton:pressed
+{
+   background-image: url(&quot;press_button.png&quot;);
+}
+	border-color: rgba(255, 255, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string>Set
+Polar angle</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="distanceButton">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>450</y>
+      <width>127</width>
+      <height>127</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>ArrowCursor</cursorShape>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+    background-color: transparent;
+    background-image: url(&quot;default_button.png&quot;);
+    background-repeat: none;    
+    border: none;
+}
+QPushButton:hover
+{
+   background-image: url(&quot;hover_button.png&quot;);
+}
+
+QPushButton:pressed
+{
+   background-image: url(&quot;press_button.png&quot;);
+}
+	border-color: rgba(255, 255, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string>Set
+Distance</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -300,7 +401,7 @@ deviation</string>
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
