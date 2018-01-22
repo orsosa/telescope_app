@@ -1,4 +1,4 @@
 
 tunnel para conectar mysql
-ssh -v  -L 10000:atlasusr.fis.utfsm.cl:3306 rene@atlasusr.fis.utfsm.cl -N
+ssh -v  -L 10000:atlasusr.fis.utfsm.cl:3306 orsosa@atlasusr.fis.utfsm.cl -N
 
